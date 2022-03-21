@@ -12,8 +12,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(_('phone number'), max_length=30, null=True, blank=True)
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
     is_active = models.BooleanField(_('active'), default=True)
-    is_staff = models.BooleanField(_('staff'), default=False)
+    is_staff = models.BooleanField(_('staff'), default=True)
     invite_code = models.CharField("invite code", max_length=11, null=True)
+    entered_invite_code = models.CharField("entered invite code", max_length=11, null=True)
+    your_invitees = models.CharField("your invitees", max_length=500, null=True)
 
     is_verified = models.BooleanField(_('verified'), default=False)
     # нужно для того, чтобы каким-то образом реализовать подтверждение по номеру телефона
@@ -21,10 +23,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'username'
-    # логиниться будем по username
-    REQUIRED_FIELDS = ['phone']
-    # это настройка для джосера
+    USERNAME_FIELD = 'username'  # логиниться будем по username
+    REQUIRED_FIELDS = ['phone', 'invite_code', 'entered_invite_code']  # djoser - доп поля выводить при auth/users/me/
 
     class Meta:
         verbose_name = _('user')

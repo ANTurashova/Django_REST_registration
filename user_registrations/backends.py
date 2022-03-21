@@ -17,18 +17,15 @@ class AuthBackend(object):
 
     def authenticate(self, request, username, password):
         """Получает пользователя по одному из трёх полей"""
-
         try:
             user = User.objects.get(
-                Q(username=username) | Q(email=username) | Q(phone=username)
+                Q(username=username) | Q(phone=username)
             )
-
         except User.DoesNotExist:
             return None
 
         if user.check_password(password):
             """Правильно ли пользователь пароль ввёл"""
             return user
-
         else:
             return None
