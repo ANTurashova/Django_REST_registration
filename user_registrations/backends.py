@@ -1,8 +1,3 @@
-"""
-Свои authentication backends. Чтобы получить возможность логинить юзера по двум полям:
-номеру телефона и email.
-"""
-
 from user_registrations.models import User
 from django.db.models import Q
 from django.contrib.auth.backends import ModelBackend

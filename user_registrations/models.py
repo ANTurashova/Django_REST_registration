@@ -1,9 +1,3 @@
-"""
-AbstractBaseUser - это стратегия использования совершенно новой модели пользователя.
-Она подходит нам тогда, когда мы не хотим использовать стандартную аутентификацию
-- это то, что нам нужно в нашем конкретном случае.
-"""
-
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
