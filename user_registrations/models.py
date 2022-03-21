@@ -7,6 +7,7 @@ from user_registrations.managers import UserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    """Модель пользователя"""
     username = models.CharField(_('username'), max_length=255, unique=True)
     email = models.EmailField(_('email address'), null=True, blank=True)
     phone = models.CharField(_('phone number'), max_length=30, null=True, blank=True)
@@ -23,12 +24,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'username'  # логиниться будем по username
+    USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['phone', 'invite_code', 'entered_invite_code']  # djoser - доп поля выводить при auth/users/me/
 
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
         unique_together = ('username', 'phone')
-        # позволяет нас создать некий составной ключ из комбинации полей 'username', 'email', 'phone'
-        # чтобы пользователи не дублировались

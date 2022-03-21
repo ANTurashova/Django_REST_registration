@@ -4,6 +4,7 @@ from string import ascii_lowercase, digits
 
 
 def generate_invite_code():
+    """Сгенерировать invite code, состоящий из десяти букв и цифр"""
     return ''.join(sample(ascii_lowercase + digits, 10))
 
 
@@ -12,8 +13,8 @@ class UserManager(BaseUserManager):
 
     def _create_user(self, username=None, phone=None, password=None, **extra_fields):
         """
-        Принимает в себя данные по пользователю, доп поля.
-        В методе реализовано несколько проверочек.
+        Принимает данные по пользователю, доп поля.
+        Реализованы проверки.
         """
 
         if not username:
@@ -39,18 +40,17 @@ class UserManager(BaseUserManager):
         return user
 
     def create_user(self, username, phone, password=None, **extra_fields):
-        """метод для создания пользователя"""
+        """Метод для создания пользователя"""
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(username=username, phone=phone, password=password, **extra_fields)
 
     def create_superuser(self, username, password, **extra_fields):
-        """метод для создания суперпользователя"""
+        """Метод для создания суперпользователя"""
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_active', True)
 
         if extra_fields.get('is_superuser') is not True:
-            # если нам приходит is_superuser = False в методе create_superuser, кидаем ошибку
             raise ValueError('Superuser must have is_superuser=True.')
 
         return self._create_user(

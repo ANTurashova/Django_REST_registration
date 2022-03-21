@@ -1,22 +1,21 @@
 from user_registrations.models import User
 from django.db.models import Q
-from django.contrib.auth.backends import ModelBackend
 
 
 class AuthBackend(object):
-    supports_object_permissions = True  # поддержка пермишенов на уровне объекта модели
-    supports_anonymous_user = False  # выключение поддержки анонимных пользователей, чтобы не логинились
-    supports_inactive_user = False  # выключение поддержки неактивных пользователей
+    supports_object_permissions = True
+    supports_anonymous_user = False
+    supports_inactive_user = False
 
     def get_user(self, user_id):
-        """служебный метод, без которого не можем обойтись"""
+        """Служебный метод"""
         try:
            return User.objects.get(pk=user_id)
         except User.DoesNotExist:
            return None
 
     def authenticate(self, request, username, password):
-        """Получает пользователя по одному из трёх полей"""
+        """Получить пользователя по одному из двух полей"""
         try:
             user = User.objects.get(
                 Q(username=username) | Q(phone=username)
@@ -25,7 +24,6 @@ class AuthBackend(object):
             return None
 
         if user.check_password(password):
-            """Правильно ли пользователь пароль ввёл"""
             return user
         else:
             return None
